@@ -21,7 +21,7 @@ export default function UploadCV() {
       linkUrl="/next-step"
     >
         <form>
-        <div className="border rounded-2xl p-8 mt-10">
+        <div className="border rounded-2xl p-8">
           <Label className="w-full h-full flex flex-col items-center justify-center">
             <Image
               src="/icons/upload.svg"

@@ -15,7 +15,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, title,listItems, prog
     <div className="grid grid-cols-5 gap-4">
     <div className="col-span-3 bg-white border rounded-lg p-8">
       <h1 className="font-semibold text-2xl">Personal Information</h1>
-      <p className="text-gray-500">More Information About You</p>
+      <p className="text-gray-500 mb-10">More Information About You</p>
      {/* the form */}
         {children}
       </div>
