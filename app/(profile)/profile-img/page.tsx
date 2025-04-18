@@ -19,7 +19,7 @@ export default function ProfileImg() {
       listItems={listItems} 
       progressValue={4} 
       progressTotal={7} 
-      linkUrl="/career"
+      linkUrl="/experience"
     >
         <form className="flex flex-col gap-4">
         <div className="flex w-full max-w-sm items-center gap-6">

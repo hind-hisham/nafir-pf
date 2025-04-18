@@ -12,11 +12,11 @@ const listItems = [
 export default function Career() {
   return (
     <FormLayout
-      title="The Resume Progress" 
+      title="Tasks and responsibilities" 
       listItems={listItems} 
       progressValue={4} 
       progressTotal={5} 
-      linkUrl="/profile-img"
+      linkUrl="/experience"
     >
         <form className="flex flex-col gap-4">
         <div className="w-full gap-1.5">
@@ -27,7 +27,6 @@ export default function Career() {
           Continue
         </Button>
       </form>
-
     </FormLayout>
   );
 }
