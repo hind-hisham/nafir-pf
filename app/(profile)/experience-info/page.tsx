@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
+import { Pencil, Trash } from "lucide-react";
 
 
 
@@ -32,6 +33,7 @@ export default function ExperienceInfo() {
       endDate: null,
       jobDescription: '',
     });
+    const [editMode,setEditMode] = useState(false);
     const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setNewExperience({ ...newExperience, [name]: new Date(value) });
@@ -67,13 +69,19 @@ export default function ExperienceInfo() {
       setExperiences(updatedExperiences);
     };
   
+    const handleEditExperience = (index: number) => {
+      setEditMode(true);
+      const experienceToEdit = experiences[index];
+      setNewExperience({ ...experienceToEdit });
+    };
+  
     return (  
     <FormLayout
       title="The Resume Progress" 
       listItems={listItems} 
       progressValue={4} 
       progressTotal={5} 
-      linkUrl="/"
+      linkUrl="/education-info"
     >
       <div className="w-full">
       <form className="flex flex-col gap-5 w-full">
@@ -114,15 +122,28 @@ export default function ExperienceInfo() {
           Continue
         </Button>
       </form>
-      <ul>
+      <ul className="mt-5 flex flex-col gap-4">
         {experiences.map((experience, index) => (
           <li key={index}>
-            <h2>{experience.jobTitle}</h2>
-            <p>{experience.companyName}</p>
-            <p>{experience.jobDescription}</p>
-            <button type="button" onClick={() => handleDeleteExperience(index)}>
-              delete
+            <div className="flex flex-col bg-gray-100 p-6 gap-4 rounded-md">
+              <div className="flex gap-3 justify-end">
+              <button className="flex items-center text-red-600 cursor-pointer" type="button" onClick={() => handleDeleteExperience(index)}>
+             <Trash size={16} /> delete
             </button>
+            <button type="button" className="flex items-center text-primary cursor-pointer" onClick={() => handleEditExperience(index)}>
+            <Pencil size={16} /> <span>edit</span>
+            </button>
+              </div>
+            <h2 className="font-semibold text-2xl">{experience.jobTitle}</h2>
+            <p className="font-semibold">{experience.companyName}</p>
+            <div className="flex gap-1 text-gray-500">
+            <p>{experience.startDate ? experience.startDate.toISOString().split("T")[0] : ""}</p>
+            -
+            <p>{experience.endDate? experience.endDate.toISOString().split("T")[0] : ""}</p>
+            </div>
+            
+            <div className="text-gray-500 mt-3">{ experience.jobDescription ? experience.jobDescription.split("\n").map((paragraph, index) => <p key={index}>&#9679; {paragraph}</p>) : ""}</div>
+            </div>
           </li>
         ))}
       </ul>

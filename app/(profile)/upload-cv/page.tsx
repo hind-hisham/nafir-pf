@@ -18,7 +18,7 @@ export default function UploadCV() {
       listItems={listItems} 
       progressValue={2} 
       progressTotal={5} 
-      linkUrl="/next-step"
+      linkUrl="/more-info"
     >
         <form>
         <div className="border rounded-2xl p-8">
