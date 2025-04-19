@@ -42,13 +42,18 @@ export default function ExperienceInfo() {
     };
   
     const handleAddExperience = () => {
-      if (!newExperience.jobTitle || !newExperience.companyName || !newExperience.startDate) {
-        toast.error("يرجى ملء جميع الحقول المطلوبة");
+      if (!newExperience.jobTitle || !newExperience.companyName) {
+        toast("Please fill in all required fields.");
         return;
       }
-    
-      if (newExperience.endDate && newExperience.startDate && newExperience.endDate < newExperience.startDate) {
-        toast.error("تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء!");
+  
+      if (newExperience.startDate && newExperience.endDate && newExperience.startDate > newExperience.endDate) {
+        toast("Start date cannot be after end date.");
+        return;
+      }
+  
+      if (newExperience.startDate && newExperience.endDate && newExperience.startDate > new Date()) {
+        toast("Start date cannot be in the future.");
         return;
       }
     
@@ -74,24 +79,24 @@ export default function ExperienceInfo() {
       <form className="flex flex-col gap-5 w-full">
       <div className="w-full grid items-center gap-1.5">
               <Label htmlFor="jobTitle">Job Title</Label>
-              <Input type="text" id="jobTitle" placeholder="Job Title"  value={newExperience.jobTitle}
+              <Input type="text" name="jobTitle" id="jobTitle" placeholder="Job Title"  value={newExperience.jobTitle}
             onChange={handleChange} />
         </div>
       <div className="w-full grid items-center gap-1.5">
         <Label htmlFor="companyName">Company Name</Label>
-        <Input type="text" id="companyName" placeholder="Company Name" value={newExperience.companyName}
+        <Input type="text" name="companyName" id="companyName" placeholder="Company Name" value={newExperience.companyName}
             onChange={handleChange} />
       </div>
       <div className="w-full flex items-center gap-2">
       <div className="w-full grid items-center gap-1.5">
         <Label htmlFor="startDate">Start Date</Label>
-        <Input type="date" id="startDate"
+        <Input type="date" id="startDate" name="startDate"
          value={newExperience.startDate ? newExperience.startDate.toISOString().split("T")[0] : ""}
             onChange={handleDateChange} />
       </div>
       <div className="w-full grid items-center gap-1.5">
         <Label htmlFor="endDate">End Date</Label>
-        <Input type="date" id="endDate"
+        <Input type="date" id="endDate" name="endDate"
          value={newExperience.endDate ? newExperience.endDate.toISOString().split("T")[0] : ""} 
          onChange={handleDateChange} />
       </div>
@@ -99,7 +104,7 @@ export default function ExperienceInfo() {
 
       <div className="w-full grid items-center gap-1.5">
         <Label htmlFor="jobDescription">Job Description</Label>
-        <Textarea id="jobDescription" value={newExperience.jobDescription} onChange={handleChange}/>
+        <Textarea id="jobDescription" name="jobDescription" value={newExperience.jobDescription} onChange={handleChange}/>
 
         </div>
         <Button type="button" variant={"outline"} onClick={handleAddExperience}>
@@ -116,7 +121,7 @@ export default function ExperienceInfo() {
             <p>{experience.companyName}</p>
             <p>{experience.jobDescription}</p>
             <button type="button" onClick={() => handleDeleteExperience(index)}>
-              حذف
+              delete
             </button>
           </li>
         ))}

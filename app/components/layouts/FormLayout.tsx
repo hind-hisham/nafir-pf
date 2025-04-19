@@ -20,7 +20,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, title,listItems, prog
         {children}
       </div>
       {/* the progress bar section */}
-      <div className="col-span-2 bg-white border p-4 rounded-lg">
+      <div className="col-span-2 bg-white border p-4 rounded-lg  max-h-fit">
       <ProgressSection
         title={title}
         listItems={listItems} 

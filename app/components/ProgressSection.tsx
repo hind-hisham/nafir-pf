@@ -14,10 +14,10 @@ interface ProgressSectionProps {
 const ProgressSection: React.FC<ProgressSectionProps> = ({title, listItems, progressValue, progressTotal, linkUrl }) => {
   return (
     <>
-      <Link href={linkUrl} className="text-primary flex items-center justify-end">
+      <Link href={linkUrl} className="text-primary flex items-center justify-end mb-5">
         Skip <ChevronRight />
       </Link>
-      <div className="flex w-full h-full flex-col items-center justify-center">
+      <div className="flex w-full py-12 flex-col items-center justify-center">
         <CircularProgressBar value={progressValue} total={progressTotal} size={150} />
         <h3 className="font-semibold text-2xl mt-4">{title}</h3>
         <ul className="text-gray-500 flex flex-col gap-2 mt-8">
