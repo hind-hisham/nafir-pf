@@ -22,7 +22,7 @@ const ProgressSection: React.FC<ProgressSectionProps> = ({title, listItems, prog
         <h3 className="font-semibold text-2xl mt-4">{title}</h3>
         <ul className="text-gray-500 flex flex-col gap-2 mt-8">
           {listItems.map((item, index) => (
-            <li key={index} className="flex gap-2">
+            <li key={index} className="flex items-start gap-2">
             <Image src="/icons/stars.png" alt="check Icon" width={20} height={20} />    
              <p>{item}</p>
              </li>
