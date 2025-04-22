@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useAuthContext from "../../hooks/authprovider";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +20,11 @@ export default function Login() {
   const router = useRouter();
   const { dispatch } = useAuthContext();
 
+
+
+  const handleGoogleSignIn = async () => {
+    await signIn("google");
+  };
 
 
    const handleSubmit = async (e: React.FormEvent) => {
@@ -90,11 +96,11 @@ export default function Login() {
           </Button>
           <div className="w-full relative bg-gray-300 h-[1px] my-4">
             <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4">OR</span></div>
-          {/* <Button type="submit" onClick={() => signIn("google")} size={"lg"} variant="outline">
+          <Button type="submit" onClick={handleGoogleSignIn} size={"lg"} variant="outline">
             Sign Up with Google
-          </Button> */}
+          </Button>
 {/* <button className="border py-1.5 px-1.5 rounded-md" onClick={() => signIn("google", { callbackUrl: "/" })}> Sign Up with Google</button> */}
-<GoogleSignInButton />
+{/* <GoogleSignInButton /> */}
 
         </form>
       </div>

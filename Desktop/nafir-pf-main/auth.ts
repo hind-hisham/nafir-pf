@@ -1,64 +1,81 @@
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import axios from "axios";
 
-import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
- declare module "next-auth" {
+declare module "next-auth" {
   interface Session {
     user: {
-      id: string
-      name: string
-      email: string
-      image: string
-    }
+      id: string;
+      name: string;
+      email: string;
+      image: string;
+    };
   }
+
   interface JWT {
-    id: string
+    id: string;
   }
-}
-interface Proffile {
-    email: string
-    name: string
-    image: string
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
-    strategy:"jwt",
-
+    strategy: "jwt",
   },
-  providers: [Google ({
-    authorization : {
+  providers: [
+    GoogleProvider({
+      authorization: {
         params: {
-            prompt: "consent",
-            access_type: "offline",
-            response_type: "code",
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
         },
-    } 
-  })],
+      },
+      profile: (profile) => {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
+    }),
+  ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id
+        token.id = user.id;
       }
-      return token
+      return token;
     },
-   
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
     async signIn({ account, profile }) {
-        if (account?.provider === "google") {
-            const { email, name, picture } = profile
-            const user = {
-            email,
-            name,
-            image: picture,
-            }
-            return user
+      if (account?.provider === "google" && profile) {
+        try {
+          const res = await axios.post("http://localhost:8000/api/sauth", {
+            name: profile.name,
+            email: profile.email,
+            profile_pic: profile.picture,
+          });
+console.log(res.data)
+          const { token } = res.data;
+
+          if (typeof window !== "undefined") {
+            localStorage.setItem("authToken", token);
+          }
+
+          return true;
+        } catch (error) {
+          console.error("Error sending to Laravel /api/sauth", error);
+          return false;
         }
-        return false 
-    }
+      }
 
-  }
-
-})
-
-
-
- 
+      return true;
+    },
+  },
+});
