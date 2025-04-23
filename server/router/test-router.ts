@@ -1,3 +1,4 @@
+import { UserSchema } from "@/lib/dtos";
 import axios from "axios";
 import {
   publicProcedure,
@@ -19,14 +20,14 @@ export const testRouter = router({
   }),
   testProtect: protectedProcedure.query(async ({ ctx: { token } }) => {
     return {
-        message: `Hello! You are logged in.`
-    }
+      message: `Hello! You are logged in.`,
+    };
   }),
 
-  getMentorships: publicProcedure.query(async()=>{
-const res = await axios.get("http://localhost:8000/api/mentorships");
-const data = res.data.data;
+  getMentorships: publicProcedure.query(async () => {
+    const res = await axios.get("http://localhost:8000/api/mentorships");
+    const data = res.data.data;
 
-return data
-})
+    return data;
+  }),
 });
