@@ -1,5 +1,5 @@
 export interface Context {
-    // We should add context here
+    token: string | undefined
 }
 
 export const createContext = async () => ({} as Context);
