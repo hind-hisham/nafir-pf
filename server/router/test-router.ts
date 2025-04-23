@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   publicProcedure,
   protectedProcedure,
@@ -21,4 +22,11 @@ export const testRouter = router({
         message: `Hello! You are logged in.`
     }
   }),
+
+  getMentorships: publicProcedure.query(async()=>{
+const res = await axios.get("http://localhost:8000/api/mentorships");
+const data = res.data.data;
+
+return data
+})
 });

@@ -52,6 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             name: profile.name,
             email: profile.email,
             profile_pic: profile.picture,
+            googele_token: account.id_token,
           });
           console.log(res.data);
           const { token } = res.data;

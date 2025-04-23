@@ -8,6 +8,8 @@ import Footer from "@/app/components/Footer";
 import { Toaster } from "@/components/ui/sonner"
 import { SessionProvider } from "next-auth/react";
 import { AuthContextProvider } from "./context/authcotext";
+import from
+import { TRPCProvider } from "../client/index";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +36,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <TRPCProvider>
         <SessionProvider>
         <AuthContextProvider>
         <Navbar />
@@ -44,6 +47,7 @@ export default function RootLayout({
         <Toaster />
     </AuthContextProvider>
     </SessionProvider>
+    </TRPCProvider>
       </body>
     </html>
   );
