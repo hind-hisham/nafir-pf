@@ -2,27 +2,16 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import axios from "axios";
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      image: string;
-    };
-  }
-
-  interface JWT {
-    id: string;
-  }
-}
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
   },
   providers: [
     GoogleProvider({
+      // more explicit
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+
       authorization: {
         params: {
           prompt: "consent",
@@ -41,15 +30,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, profile, account }) {
       if (user) {
         token.id = user.id;
+        // TODO: Fix TypeScript quirk here
+        token.accessToken = account?.access_token;
       }
       return token;
     },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
+        session.user.accessToken = token.accessToken as string | undefined;
       }
       return session;
     },
@@ -61,7 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: profile.email,
             profile_pic: profile.picture,
           });
-console.log(res.data)
+          console.log(res.data);
           const { token } = res.data;
 
           if (typeof window !== "undefined") {
