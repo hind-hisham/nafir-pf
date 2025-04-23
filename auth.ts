@@ -49,6 +49,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account?.provider === "google" && profile) {
         try {
           const res = await axios.post("http://localhost:8000/api/sauth", {
+            //send the provider back to the backend
+            provider: account.provider,
             name: profile.name,
             email: profile.email,
             profile_pic: profile.picture,
