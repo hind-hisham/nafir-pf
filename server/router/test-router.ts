@@ -5,7 +5,7 @@ import {
   protectedProcedure,
   router,
   authedProcedure,
-} from "../trpc";
+} from "../init";
 
 export const testRouter = router({
   test: publicProcedure.query(() => {

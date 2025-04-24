@@ -1,5 +1,7 @@
+import { JWT } from "next-auth";
+
 export interface Context {
-    token: string | undefined
+    token: JWT | undefined;
 }
 
 export const createContext = async () => ({} as Context);
