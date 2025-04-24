@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
+// import Footer from "@/app/components/Footer";
 import Footer from "@/app/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { SessionProvider } from "next-auth/react";
@@ -37,7 +38,7 @@ export default function RootLayout({
           <SessionProvider>
             <AuthContextProvider>
               <Navbar />
-              <main className="min-h-screen bg-gray-100">{children}</main>
+              <main className="min-h-full bg-gray-100">{children}</main>
               <Footer />
               <Toaster />
             </AuthContextProvider>

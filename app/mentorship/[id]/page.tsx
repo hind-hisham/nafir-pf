@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
+import MenBookingModal from "@/app/components/MenBookingModal";
 type Mentorship = {
   id: number;
   name: string;
@@ -19,7 +20,6 @@ type User = {
   name: string;
   email: string;
   certificates: string;
-  // Add any other fields you need from the user response
 };
 
 export default function MentorSession() {
@@ -27,8 +27,20 @@ export default function MentorSession() {
   const [session, setSession] = useState<Mentorship | null>(null);
   const [mentor, setMentor] = useState<User | null>(null);
 const [certificates, setCertificates] = useState<any[]>([]);
+const [available_times , setAvailable_times] = useState<any[]>([]);
 const [activeTab , setActiveTab] = useState('about')
-  useEffect(() => {
+const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    console.log("Modal opened");
+  };
+
+  const handleCloseModal:any = () => {
+    setIsModalOpen(false);
+  };
+
+useEffect(() => {
     if (!id) return;
 
     const fetchSessionAndMentor = async () => {
@@ -38,7 +50,7 @@ const [activeTab , setActiveTab] = useState('about')
         );
         const sessionData = sessionRes.data.data;
         setSession(sessionData);
-
+console.log(sessionData.available_times)
         const mentorRes = await axios.get<{ data: User }>(
           `http://localhost:8000/api/user/${sessionData.mentor_id}`
         );
@@ -63,6 +75,7 @@ const [activeTab , setActiveTab] = useState('about')
       <div className="col-span-4 rounded-xl shadow-md bg-white  h-[852px] p-6">
 
         <div className="flex justify-between h-[80px] p-4 items-center ">
+          
 <span className="flex items-center gap-2 mb-2 p-4 ">
 <Image
             src="https://lh3.googleusercontent.com/a/ACg8ocLSU8odejNo0uYpGwHMC8M6047moO1TcWERzyah3f5f4f7hMOCb=s96-c"
@@ -170,10 +183,23 @@ const [activeTab , setActiveTab] = useState('about')
     </div>
   </div>
 
+
+
+
   <div className="w-full">
-    <button className="bg-primary text-white px-4 py-2 rounded w-full transition duration-200">
+    {/* <button onClick={handleOpenModal} className="bg-primary text-white px-4 py-2 rounded w-full transition duration-200">
       احجز جلستك
-    </button>
+    </button> */}
+
+
+  <MenBookingModal
+    mentorshipId={session?.id ?? 0}
+    mentorId={mentor?.id ?? 0}
+    menteeId={123} 
+    // onClose={handleCloseModal} 
+     mentor={mentor} 
+  />
+
   </div>
 </div>
 
