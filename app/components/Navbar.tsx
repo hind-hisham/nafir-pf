@@ -11,7 +11,6 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
   } from "@/components/ui/navigation-menu"
-  import useAuthContext from "../hooks/authprovider";
 
 const components: { title: string; href: string; description: string ; }[] = [
     {
@@ -53,7 +52,7 @@ const components: { title: string; href: string; description: string ; }[] = [
 
 
 export default function Navbar() {
-  const { user } = useAuthContext();
+  const { user } = {user : null };
 
   // console.log('ther navbar user',user) 
     return (

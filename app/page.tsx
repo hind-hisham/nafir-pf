@@ -4,7 +4,7 @@ import { trpc } from "@/client/trpc";
 import MentorshipsPage from "./pages/mentorshipspage";
 
 export default function Home() {
-  // const { user, dispatch }:any = useAuthContext();
+  // const { user, dispatch }:any = { dispatch : () => {}, user : null };
 
   // console.log("current user", user);
   const { data, isLoading, isError } = trpc.test.getMentorships.useQuery();

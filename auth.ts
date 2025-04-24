@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import axios from "axios";
 
-const BACKEND_URL = "https://localhost:8000"
+const BACKEND_URL = "http://localhost:8000"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -13,25 +13,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // more explicit
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
     }),
   ],
   callbacks: {
     async jwt({ token, user, profile, account }) {
+      console.log(token, user, profile, account);
       if (account?.access_token) {
+        console.log(`Got access token: ${account.access_token}`);
         token.accessToken = account.access_token;
-        const res = await fetch(`${BACKEND_URL}/api/google-login`, {
+        const res = await fetch(`${BACKEND_URL}/api/atauth`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ access_token: account.access_token }),
+          body: JSON.stringify({ access_token: account.access_token, provider: 'google' }),
         });
+        console.log(res)
+        const jsoned = await res.json()
+        console.log(jsoned)
         if (!res.ok) {
           return null; // hmmm...
         }
