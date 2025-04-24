@@ -5,7 +5,6 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { SessionProvider } from "next-auth/react";
-import { AuthContextProvider } from "./context/authcotext";
 import { TRPCProvider } from "@/client";
 
 const geistSans = Geist({
@@ -35,12 +34,10 @@ export default function RootLayout({
       >
         <TRPCProvider>
           <SessionProvider>
-            <AuthContextProvider>
               <Navbar />
               <main className="min-h-screen bg-gray-100">{children}</main>
               <Footer />
               <Toaster />
-            </AuthContextProvider>
           </SessionProvider>
         </TRPCProvider>
       </body>
