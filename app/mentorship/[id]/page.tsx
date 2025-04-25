@@ -12,6 +12,7 @@ type Mentorship = {
   department_id: number;
   date: string;
   days: string;
+  
   available_times: string;
 };
 
@@ -50,7 +51,7 @@ useEffect(() => {
         );
         const sessionData = sessionRes.data.data;
         setSession(sessionData);
-console.log(sessionData.available_times)
+console.log('sesion',sessionData)
         const mentorRes = await axios.get<{ data: User }>(
           `http://localhost:8000/api/user/${sessionData.mentor_id}`
         );
@@ -190,15 +191,16 @@ console.log(sessionData.available_times)
     {/* <button onClick={handleOpenModal} className="bg-primary text-white px-4 py-2 rounded w-full transition duration-200">
       احجز جلستك
     </button> */}
+<MenBookingModal
+  mentorshipId={session?.id ?? 0}
+  mentorId={mentor?.id ?? 0}
+  menteeId={123} 
+  mentor={mentor} 
+  availableTimes={session?.available_times ?? []} 
+/>
 
 
-  <MenBookingModal
-    mentorshipId={session?.id ?? 0}
-    mentorId={mentor?.id ?? 0}
-    menteeId={123} 
-    // onClose={handleCloseModal} 
-     mentor={mentor} 
-  />
+
 
   </div>
 </div>

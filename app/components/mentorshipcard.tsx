@@ -3,10 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
-import useAuthContext from "../hooks/authprovider";
 import { useRouter } from "next/navigation";
 import { trpc } from "../../client/trpc";
-
+import { useSession } from 'next-auth/react';
 type Mentorship = {
   id: number;
   name: string;
@@ -18,9 +17,8 @@ type Mentorship = {
 };
 
 export default function MentorshipCard() {
-  const { user } = useAuthContext();
   const router = useRouter();
-
+const {data : user } = useSession()
   const { data: mentorships, isLoading, error } = trpc.test.getMentorships.useQuery();
 
   const handlePreview = (item: Mentorship) => {
@@ -40,7 +38,7 @@ export default function MentorshipCard() {
       {mentorships?.map((item:any) => (
         <Card
           key={item.id}
-          className="w-[374px] h-[506px] p-4 flex flex-col justify-center bg-white transition-shadow duration-300 ease-in-out"
+          className="w-full  p-4 flex flex-col justify-center bg-white transition-shadow duration-300 ease-in-out"
         >
           <Image
             src="https://lh3.googleusercontent.com/a/ACg8ocLSU8odejNo0uYpGwHMC8M6047moO1TcWERzyah3f5f4f7hMOCb=s96-c"

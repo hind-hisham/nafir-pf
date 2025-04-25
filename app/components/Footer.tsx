@@ -27,10 +27,10 @@ interface MenuItem {
   
   const Footer = ({
     logo = {
-      src: "https://www.shadcnblocks.com/images/block/block-1.svg",
+      src: "https://www.nafir.net/images/block/block-1.svg",
       alt: "blocks for shadcn/ui",
-      title: "Shadcnblocks.com",
-      url: "https://www.shadcnblocks.com",
+      title: "Nafir.net",
+      url: "https://www.nafir.net",
     },
     tagline = "Components made easy.",
     menuItems = [
@@ -86,13 +86,13 @@ interface MenuItem {
             <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
               <div className="col-span-2 mb-8 lg:mb-0">
                 <div className="flex items-center gap-2 lg:justify-start">
-                  <a href="https://shadcnblocks.com">
+                  <a href="https://nafir.net">
                              <Image src="/nafir.svg" alt="logo" width={150} height={150} />
              
                   </a>
                   <p className="text-xl font-semibold">{logo.title}</p>
                 </div>
-                <p className="mt-4 font-bold">{tagline}</p>
+                {/* <p className="mt-4 font-bold">{tagline}</p> */}
               </div>
               {menuItems.map((section, sectionIdx) => (
                 <div key={sectionIdx}>

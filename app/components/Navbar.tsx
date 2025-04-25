@@ -10,23 +10,26 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
-import useAuthContext from "../hooks/authprovider";
+} from "@/components/ui/navigation-menu";
+import { useSession } from "next-auth/react";
+
+// import useAuthContext from "../hooks/authprovider";
 
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Mentorships",
-    href: "/docs/primitives/alert-dialog",
+    href: "/mentorships",
     description: "A modal dialog that interrupts the user with important content and expects a response.",
+   
   },
   {
     title: "Activites",
-    href: "/docs/primitives/hover-card",
+    href: "/activites",
     description: "For sighted users to preview content available behind a link.",
   },
   {
-    title: "CV Services",
-    href: "/docs/primitives/progress",
+    title: "Blogs",
+    href: "/blogs",
     description: "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
   {
@@ -47,8 +50,8 @@ const components: { title: string; href: string; description: string }[] = [
 ]
 
 export default function Navbar() {
-  const { user } = useAuthContext();
-
+  const { data: user } = useSession();
+console.log("current user", user);
   return (
     <div className="flex items-center justify-between px-8 py-4 border-b bg-white shadow-sm">
       <Link href="/" className="flex items-center gap-2">
@@ -64,7 +67,7 @@ export default function Navbar() {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link href="/about" legacyBehavior passHref>
+            <Link href="/mentorships" legacyBehavior passHref>
               <NavigationMenuLink className="font-medium text-sm">About</NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
@@ -98,7 +101,7 @@ export default function Navbar() {
         {user ? (
           <div className="flex items-center gap-2">
             <Image
-              src={user?.user?.profile_pic}
+              src={user?.user?.image}
               alt={user?.user?.name}
               width={40}
               height={40}

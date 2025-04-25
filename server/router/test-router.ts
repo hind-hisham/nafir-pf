@@ -4,7 +4,7 @@ import {
   protectedProcedure,
   router,
   authedProcedure,
-} from "../trpc";
+} from "../init";
 
 export const testRouter = router({
   test: publicProcedure.query(() => {
@@ -14,7 +14,7 @@ export const testRouter = router({
   }),
   testAuth: authedProcedure.query(async ({ ctx: { token } }) => {
     return {
-      message: `Hi, ${token}.`,
+      message: `Hi, ${JSON.stringify(token)}.`,
     };
   }),
   testProtect: protectedProcedure.query(async ({ ctx: { token } }) => {
@@ -31,7 +31,7 @@ return data;
 }),
 
 getBlogs : publicProcedure.query(async()=>{
-  const res = await axios.get('http://localhost:8000/api/post');
+  const res = await axios.get('http://localhost:8000/api/posts');
 const data = res.data.data;
 
 return data;

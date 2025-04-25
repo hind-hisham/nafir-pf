@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
-import useAuthContext from "../hooks/authprovider";
 import { useRouter } from "next/navigation";
 import { trpc } from "../../client/trpc";
 import { FiHeart } from "react-icons/fi";
@@ -18,7 +17,6 @@ type Activity = {
 };
 
 export default function ActivitesCard() {
-  const { user } = useAuthContext();
   const router = useRouter();
 
   const { data: Activites, isLoading, error } = trpc.test.getActivites.useQuery();
@@ -40,7 +38,7 @@ export default function ActivitesCard() {
       {Activites?.map((item: Activity) => (
         <Card
           key={item.id}
-          className="w-full max-w-sm h-fit flex flex-col bg-white shadow-md hover:shadow-lg transition-shadow duration-300"
+          className="w-full max-w-sm h-fit flex flex-col bg-white shadow-md  "
         >
           <Image
             src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c"

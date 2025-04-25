@@ -3,7 +3,7 @@ import MentorshipCard from "@/app/components/mentorshipcard";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import mentorPageHero from "../../public/mentor  hero (1).png";
 
-export default function MentorshipsPage() {
+export default function Mentorships() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="w-full relative top-0">

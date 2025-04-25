@@ -2,75 +2,64 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import axios from "axios";
 
+const BACKEND_URL = "http://localhost:8000";
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
   },
   providers: [
     GoogleProvider({
-      // more explicit
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-
       authorization: {
         params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
+          scope: "openid email profile",
         },
-      },
-      profile: (profile) => {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          email: profile.email,
-          image: profile.picture,
-        };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user, profile, account }) {
-      if (user) {
-        token.id = user.id;
-        // TODO: Fix TypeScript quirk here
-        token.accessToken = account?.access_token;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as string;
-        session.user.accessToken = token.accessToken as string | undefined;
-      }
-      return session;
-    },
-    async signIn({ account, profile }) {
-      if (account?.provider === "google" && profile) {
+    async jwt({ token, account }) {
+      if (account?.access_token) {
         try {
-          const res = await axios.post("http://localhost:8000/api/sauth", {
-            //send the provider back to the backend
-            provider: account.provider,
-            name: profile.name,
-            email: profile.email,
-            profile_pic: profile.picture,
-            googele_token: account.id_token,
+          const res = await fetch(`${BACKEND_URL}/api/atauth`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ access_token: account.access_token, provider: 'google' }),
           });
-          console.log(res.data);
-          const { token } = res.data;
 
-          if (typeof window !== "undefined") {
-            localStorage.setItem("authToken", token);
+          const data = await res.json();
+
+          console.log("JWT callback data:", data);
+          if (!res.ok) {
+            console.error("Backend error:", data);
+            throw new Error(data.message || "Failed to authenticate user");
           }
 
-          return true;
-        } catch (error) {
-          console.error("Error sending to Laravel /api/sauth", error);
-          return false;
+          return {
+            ...token,
+            id: data.id,
+            email: data.email,
+            authToken: data.authToken,
+          };
+        } catch (err) {
+          console.error("JWT callback error:", err);
+          throw err; 
         }
       }
 
-      return true;
+      return token;
+    },
+
+    async session({ session, token }) {
+      session.user.authToken = token.authToken as string;
+      session.user.id = token.id as string;
+      session.user.email = token.email as string;
+
+      console.log("Session callback data:", session); 
+
+      return session;
     },
   },
 });

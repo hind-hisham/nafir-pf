@@ -8,13 +8,13 @@ declare module "next-auth" {
         name: string;
         email: string;
         image: string;
-        accessToken: string | undefined
+        authToken: string
       } & DefaultSession["user"];
     }
   
     interface JWT extends DefaultJWT {
       id: string;
-      accessToken: string | undefined;
+      authToken: string 
     }
   }
   
