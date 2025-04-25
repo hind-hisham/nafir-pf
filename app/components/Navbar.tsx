@@ -4,139 +4,121 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils"
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-  } from "@/components/ui/navigation-menu"
-  import useAuthContext from "../hooks/authprovider";
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+import useAuthContext from "../hooks/authprovider";
 
-const components: { title: string; href: string; description: string ; }[] = [
-    {
-      title: "Mentorships",
-      href: "/docs/primitives/alert-dialog",
-      description:
-        "A modal dialog that interrupts the user with important content and expects a response.",
-    },
-    {
-      title: "Activites",
-      href: "/docs/primitives/hover-card",
-      description:
-        "For sighted users to preview content available behind a link.",
-    },
-    {
-      title: "CV Services",
-      href: "/docs/primitives/progress",
-      description:
-        "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-    {
-      title: "Scroll-area",
-      href: "/docs/primitives/scroll-area",
-      description: "Visually or semantically separates content.",
-    },
-    {
-      title: "Tabs",
-      href: "/docs/primitives/tabs",
-      description:
-        "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-      title: "Tooltip",
-      href: "/docs/primitives/tooltip",
-      description:
-        "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
-  ]
-
+const components: { title: string; href: string; description: string }[] = [
+  {
+    title: "Mentorships",
+    href: "/docs/primitives/alert-dialog",
+    description: "A modal dialog that interrupts the user with important content and expects a response.",
+  },
+  {
+    title: "Activites",
+    href: "/docs/primitives/hover-card",
+    description: "For sighted users to preview content available behind a link.",
+  },
+  {
+    title: "CV Services",
+    href: "/docs/primitives/progress",
+    description: "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+  },
+  {
+    title: "Scroll-area",
+    href: "/docs/primitives/scroll-area",
+    description: "Visually or semantically separates content.",
+  },
+  {
+    title: "Tabs",
+    href: "/docs/primitives/tabs",
+    description: "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+  },
+  {
+    title: "Tooltip",
+    href: "/docs/primitives/tooltip",
+    description: "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+  },
+]
 
 export default function Navbar() {
   const { user } = useAuthContext();
 
-  // console.log('ther navbar user',user) 
-    return (
-        <div className="flex  items-center justify-between px-8">
-            <div>
-                <Image src="/nafir.svg" alt="logo" width={150} height={150} />
-            </div>
-    <NavigationMenu>
-      <NavigationMenuList>
+  return (
+    <div className="flex items-center justify-between px-8 py-4 border-b bg-white shadow-sm">
+      <Link href="/" className="flex items-center gap-2">
+        <Image src="/nafir.svg" alt="logo" width={120} height={40} />
+      </Link>
 
-      <NavigationMenuItem>
-          <Link href="/"  passHref>
-            {/* <NavigationMenuLink > */}
-              Home
-            {/* </NavigationMenuLink> */}
-          </Link>
-        </NavigationMenuItem>
+      <NavigationMenu>
+        <NavigationMenuList className="flex gap-6">
+          <NavigationMenuItem>
+            <Link href="/" legacyBehavior passHref>
+              <NavigationMenuLink className="font-medium text-sm">Home</NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
 
-      <NavigationMenuItem>
-          <Link href="/about"  passHref>
-            {/* <NavigationMenuLink > */}
-              About
-            {/* </NavigationMenuLink> */}
-          </Link>
-        </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link href="/about" legacyBehavior passHref>
+              <NavigationMenuLink className="font-medium text-sm">About</NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
 
-        <NavigationMenuItem>
-        <NavigationMenuTrigger className="font-normal">Services</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="font-medium text-sm">Services</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[500px] gap-4 p-4 md:grid-cols-2">
+                {components.map((component) => (
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <Link href="/contact" passHref>
-            {/* <NavigationMenuLink > */}
-              Contact 
-            {/* </NavigationMenuLink> */}
-          </Link>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-    <div className="flex items-center gap-4">
+          <NavigationMenuItem>
+            <Link href="/contact" legacyBehavior passHref>
+              <NavigationMenuLink className="font-medium text-sm">Contact</NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+
+      <div className="flex items-center gap-4">
         {user ? (
           <div className="flex items-center gap-2">
             <Image
-            src={user?.user?.profile_pic}
-            alt={user.name}
-            width={40}
-            height={40}
-            className="rounded-full"
-            unoptimized 
-          />
-          {/* <Image
-            src="https://lh3.googleusercontent.com/a/ACg8ocLSU8odejNo0uYpGwHMC8M6047moO1TcWERzyah3f5f4f7hMOCb=s96-c"
-            alt="Test image"
-            width={40}
-            height={40}
-            className="rounded-full"
-            unoptimized
-          /> */}
-
-            {/* <span className="text-sm font-medium">{user?.user?.name}</span> */}
+              src={user?.user?.profile_pic}
+              alt={user?.user?.name}
+              width={40}
+              height={40}
+              className="rounded-full object-cover"
+              unoptimized
+            />
           </div>
         ) : (
           <>
-            <Link href="/login" className="px-8 py-2 rounded-md bg-primary text-white">Login</Link>
-            <Link href="/signup" className="px-8 py-2 rounded-md bg-secondary">Signup</Link>
+            <Link href="/login" className="px-5 py-2 rounded-md bg-primary text-white text-sm">
+              Login
+            </Link>
+            <Link href="/signup" className="px-5 py-2 rounded-md bg-secondary text-sm">
+              Signup
+            </Link>
           </>
         )}
       </div>
     </div>
-    )
+  )
 }
 
 const ListItem = React.forwardRef<
@@ -154,7 +136,7 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm shadow-md brder-bottom font-medium leading-none">{title}</div>
+          <div className="text-sm font-medium leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
