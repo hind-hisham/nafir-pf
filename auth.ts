@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import axios from "axios";
 
-const BACKEND_URL = "http://localhost:8000"
+const BACKEND_URL = "http://localhost:8000";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -10,40 +10,56 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   providers: [
     GoogleProvider({
-      // more explicit
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          scope: "openid email profile",
+        },
+      },
     }),
   ],
   callbacks: {
-    async jwt({ token, user, profile, account }) {
-      console.log(token, user, profile, account);
+    async jwt({ token, account }) {
       if (account?.access_token) {
-        console.log(`Got access token: ${account.access_token}`);
-        token.accessToken = account.access_token;
-        const res = await fetch(`${BACKEND_URL}/api/atauth`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ access_token: account.access_token, provider: 'google' }),
-        });
-        console.log(res)
-        const jsoned = await res.json()
-        console.log(jsoned)
-        if (!res.ok) {
-          return null; // hmmm...
+        try {
+          const res = await fetch(`${BACKEND_URL}/api/atauth`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ access_token: account.access_token, provider: 'google' }),
+          });
+
+          const data = await res.json();
+
+          console.log("JWT callback data:", data);
+          if (!res.ok) {
+            console.error("Backend error:", data);
+            throw new Error(data.message || "Failed to authenticate user");
+          }
+
+          return {
+            ...token,
+            id: data.id,
+            email: data.email,
+            authToken: data.authToken,
+          };
+        } catch (err) {
+          console.error("JWT callback error:", err);
+          throw err; 
         }
-        const data = (await res.json()) as {email: string, id: string, authToken: string};
-        return data
       }
-      return null;
+
+      return token;
     },
+
     async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as string;
-        session.user.email = token.email as string;
-        session.user.authToken = token.authToken as string;
-      }
-      return session; // returning session instead of null
+      session.user.authToken = token.authToken as string;
+      session.user.id = token.id as string;
+      session.user.email = token.email as string;
+
+      console.log("Session callback data:", session); 
+
+      return session;
     },
   },
 });

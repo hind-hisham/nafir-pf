@@ -2,30 +2,26 @@
 import { trpc } from "@/client/trpc";
 // import MentorshipCard  from '../app/components/mentorshipcard'
 import MentorshipsPage from "./pages/mentorshipspage";
-<<<<<<< HEAD
 import BlogsCard from "./components/blogscard";
 import BlogsPage from "./pages/blogspage";
 import ActivitesCard from "./components/activitescard";
 import ActivitesPage from "./pages/activites";
-=======
+import { useSession } from "next-auth/react";
 
->>>>>>> d1c8466f02fcacf3c495eb927ee253002c9cf297
 export default function Home() {
-  // const { user, dispatch }:any = { dispatch : () => {}, user : null };
+  // const { data: session } = useSession();
+
+  // console.log(session?.user?.authToken);
 
   // console.log("current user", user);
   const { data, isLoading, isError } = trpc.test.getMentorships.useQuery();
 
   return (
     <div>
-<<<<<<< HEAD
+      
+  {/* return <div>Welcome {session?.user?.authToken}</div>; */}
       <ActivitesPage />
       {/* <MentorshipsPage /> */}
-=======
-      <pre>{JSON.stringify(data)}</pre>
-      <MentorshipsPage />
->>>>>>> d1c8466f02fcacf3c495eb927ee253002c9cf297
-      {/* <h1>to do :Home page</h1> */}
-    </div>
+</div>
   );
 }
