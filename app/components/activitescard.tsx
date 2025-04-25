@@ -38,7 +38,7 @@ export default function ActivitesCard() {
       {Activites?.map((item: Activity) => (
         <Card
           key={item.id}
-          className="w-full max-w-sm h-fit flex flex-col bg-white shadow-md hover:shadow-lg transition-shadow duration-300"
+          className="w-full max-w-sm h-fit flex flex-col bg-white shadow-md  "
         >
           <Image
             src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c"

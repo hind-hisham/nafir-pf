@@ -31,7 +31,7 @@ return data;
 }),
 
 getBlogs : publicProcedure.query(async()=>{
-  const res = await axios.get('http://localhost:8000/api/post');
+  const res = await axios.get('http://localhost:8000/api/posts');
 const data = res.data.data;
 
 return data;

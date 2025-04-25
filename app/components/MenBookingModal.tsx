@@ -15,34 +15,34 @@ import {
 import {Calendar} from '@/components/ui/calendar';;
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
-export default function MenBookingModal({ mentor, mentorshipId, mentorId, menteeId }) {
-  const [selectedDay, setSelectedDay] = useState('');
+export default function MenBookingModal({availableTimes, mentor, mentorshipId, mentorId, menteeId }) {
+  const [availableTime, setAvailableTime] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-
+console.log('yup',availableTimes)
   const handleBooking = async () => {
-    if (!selectedDay || !selectedTime || !message) {
-      alert("Please fill in all fields");
+    if (!availableTimes || !selectedTime || !message) {
+      alert("Please fill in all fields"); 
       return;
     }
 
     try {
       setLoading(true);
       const response = await axios.post("http://localhost:8000/api/booking", {
-        mentorship_id: mentorshipId,
-        mentor_id: mentorId,
-        mentee_id: menteeId,
-        day: selectedDay,
-        time: selectedTime,
-        message: message,
+        // mentorship_id: mentorshipId,
+        // mentor_id: mentorId,
+        // mentee_id: menteeId,
+        // day: selectedDay,
+        // time: selectedTime,
+        // message: message,
       });
 
       if (response.status === 200) {
         setSuccess(true);
-        setSelectedDay('');
-        setSelectedTime('');
+        //setSelectedDay('');
+        setSelectedTime(availableTimes); // Reset to the first available time
         setMessage('');
       } else {
         alert("An error occurred during booking, please try again");
@@ -55,10 +55,12 @@ export default function MenBookingModal({ mentor, mentorshipId, mentorId, mentee
     }
   };
 
-  useEffect(() => {
-    console.log('mentor', mentor);
-  }, []);
-  // Book a Session with 
+
+
+  const parsedTimes = typeof availableTimes === 'string'
+  ? JSON.parse(availableTimes)
+  : availableTimes;
+
   return (
     <Dialog >
       <DialogTrigger asChild>
@@ -107,16 +109,28 @@ export default function MenBookingModal({ mentor, mentorshipId, mentorId, mentee
           {success && <p className="text-green-500 mt-4">Booking successful</p>}
         </div>
 
-        <div className="flex  flex-col items-center justify-start text-xl text-muted-foreground">
+        <div className="flex gap-4 flex-col items-center justify-start text-xl text-muted-foreground">
 <Calendar className='' />
+<div dir='rtl' className="flex flex-col gap-4 w-full">
+  <label className="text-sm">اختر وقت الجلسة</label>
+  <div className="grid grid-cols-2 gap-2">
+    {Object.entries(parsedTimes).map(([period, times]) =>
+      Array.isArray(times) &&
+      times.map((time) => (
+        <button
+          key={`${period}-${time}`}
+          onClick={() => setSelectedTime(time)}
+          className={`py-2 px-3 rounded border text-sm
+            ${selectedTime === time ? 'bg-primary text-white' : 'bg-white text-gray-700'}
+            hover:bg-primary hover:text-white transition`}
+        >
+          {period === 'morning' ? 'الصباح' : 'المساء'} - {time}
+        </button>
+      ))
+    )}
+  </div>
+</div>
 
-<label>Select Time</label>
-          <input
-            type="text"
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-            className="border p-2 rounded"
-          />
 
         </div>
 

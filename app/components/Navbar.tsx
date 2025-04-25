@@ -18,18 +18,18 @@ import { useSession } from "next-auth/react";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Mentorships",
-    href: "/mentorshipspage",
+    href: "/mentorships",
     description: "A modal dialog that interrupts the user with important content and expects a response.",
    
   },
   {
     title: "Activites",
-    href: "/docs/primitives/hover-card",
+    href: "/activites",
     description: "For sighted users to preview content available behind a link.",
   },
   {
-    title: "CV Services",
-    href: "/docs/primitives/progress",
+    title: "Blogs",
+    href: "/blogs",
     description: "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
   {
@@ -67,7 +67,7 @@ console.log("current user", user);
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link href="/about" legacyBehavior passHref>
+            <Link href="/mentorships" legacyBehavior passHref>
               <NavigationMenuLink className="font-medium text-sm">About</NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
