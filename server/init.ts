@@ -22,7 +22,7 @@ export const authedProcedure = baseProcedure.use(async (opts) => {
   const sesh = await auth();
   
   console.log(sesh)
-  return opts.next({ ctx: { ...opts.ctx, token: sesh?.user.accessToken} }); // TODO: Implement actual logic!
+  return opts.next({ ctx: { ...opts.ctx, token: sesh?.user.authToken} }); // TODO: Implement actual logic!
 });
 
 // These procedures will DEMAND that the ID exists.

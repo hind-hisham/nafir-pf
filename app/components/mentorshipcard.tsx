@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
-import useAuthContext from "../hooks/authprovider";
 import { useRouter } from "next/navigation";
 import { trpc } from "../../client/trpc";
 
@@ -18,7 +17,7 @@ type Mentorship = {
 };
 
 export default function MentorshipCard() {
-  const { user } = useAuthContext();
+  const { user } = { dispatch : () => {}, user : null };
   const router = useRouter();
 
   const { data: mentorships, isLoading, error } = trpc.test.getMentorships.useQuery();

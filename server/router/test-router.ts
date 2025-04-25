@@ -4,7 +4,7 @@ import {
   protectedProcedure,
   router,
   authedProcedure,
-} from "../trpc";
+} from "../init";
 
 export const testRouter = router({
   test: publicProcedure.query(() => {
@@ -14,7 +14,7 @@ export const testRouter = router({
   }),
   testAuth: authedProcedure.query(async ({ ctx: { token } }) => {
     return {
-      message: `Hi, ${token}.`,
+      message: `Hi, ${JSON.stringify(token)}.`,
     };
   }),
   testProtect: protectedProcedure.query(async ({ ctx: { token } }) => {

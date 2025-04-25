@@ -5,12 +5,11 @@ import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import useAuthContext from "../hooks/authprovider";
 
 export default function GoogleSignInButton() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const { dispatch } = useAuthContext();
+  const { dispatch } = { dispatch : () => {}, user : null };
 
   useEffect(() => {
     let didRun = false;
