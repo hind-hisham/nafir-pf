@@ -16,7 +16,7 @@ export default function Career() {
       listItems={listItems} 
       progressValue={4} 
       progressTotal={5} 
-      linkUrl="/experience"
+      linkUrl="/experience-info"
     >
         <form className="flex flex-col gap-4">
         <div className="w-full gap-1.5">

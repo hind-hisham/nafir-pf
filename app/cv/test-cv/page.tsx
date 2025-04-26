@@ -24,11 +24,9 @@ const items = [
   },
   {
     title: 'In Progress',
-    //description,
   },
   {
     title: 'Result',
-    //description,
   },
 ];
 const isLoading = false;
@@ -131,7 +129,7 @@ export default function TestCV() {
               </div>
             </div>
 
-            <div className="flex p-6 rounded-lg border justify-between w-full mt-8 flex-wrap">
+            <div className="flex py-6 rounded-lg border justify-between w-full mt-8 flex-wrap">
               <div className="flex flex-col items-center gap-2 p-6">
                 <h4 className="text-xl font-semibold mb-4">Personal info</h4>
                 <Progress type="circle" percent={90} strokeColor={twoColors} strokeWidth={twoStroke} />
