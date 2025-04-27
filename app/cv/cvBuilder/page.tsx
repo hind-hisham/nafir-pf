@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import CvLayout from "../../components/layouts/CvLayout";
 import {  Steps } from 'antd';
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -10,18 +9,18 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import CvBuilderLayout from "@/app/components/layouts/CvBuilderLayout";
 
-const listItems = [
-  "Lorem, ipsum dolor sit amet consectetur",
-  "Lorem, ipsum dolor sit ametr adipisicing elit.",
-  "Lorem, ipsum dolor sit amet consectetur.",
-  "Lorem, ipsum dolor sit amet adipisicing elit.",
+//cv templet
+const templates = [
+  { id: "1", name: "simple",imgUrl:"/cv/1.jpg", usage: 450 , recommended: true},
+  { id: "2", name: "modern", usage: 200 ,imgUrl:"/cv/2.jpg"},
 ];
 
 // const description = 'This is a description.';
 const items = [
   {
-    title: 'Personal Information',
+    title: 'Personal Info',
   },
   {
     title: 'Experience',
@@ -29,10 +28,34 @@ const items = [
   {
     title: 'Education',
   },
+  {
+    title: 'Projects',
+  },
+  {
+    //skills and languages and Awards and Certifications and Courses & Workshops and Publications
+    title: 'Skills',
+  },
+  
 ];
 const isLoading = false;
 const isError = false;
 
+interface PersonalInfo {
+  name: string;
+  email: string;
+  phone: string;
+  whatsNum: string;
+  specialization: string;
+  summery: string;
+  links: {
+    website: string;
+    github: string;
+    linkedin: string;
+    twitter: string;
+  },
+  image: string;
+  location: string;
+}
 interface Experience {
   jobTitle: string;
   companyName: string;
@@ -61,7 +84,25 @@ const ErrorUI = () =>{
   )
 }
 export default function CvBuilder() {
+  const [page,setPage]=useState(1);
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [step,setStep]=useState(0);
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
+    name: '',
+    email: '',
+    phone: '',
+    specialization: '',
+    links:{
+      website:"",
+      github:"",
+      linkedin:"",
+      twitter: ""
+    },
+    summery: '',
+    whatsNum: '',
+    image: '',
+    location: '',
+  })
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [newExperience, setNewExperience] = useState<Experience>({
     jobTitle: '',
@@ -154,19 +195,68 @@ export default function CvBuilder() {
     const educationToEdit = educations[index];
     setNewEducation({ ...educationToEdit });
   };
-
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPersonalInfo({ ...personalInfo, image: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
  const handelNext = () =>{setStep(step + 1);};
  const handelBack = () =>{setStep(step - 1);};
+
+
+ const formData = {
+  name: personalInfo.name,
+  email: personalInfo.email,
+  phone: personalInfo.phone,
+ };
+const handleSubmit = (e: React.FormEvent) =>{
+  e.preventDefault();
+  const formData = new FormData(e.target as HTMLFormElement);
+  console.log(formData)
+}
   return (
-    <CvLayout
-    title="Resume Advice" 
-    listItems={listItems} 
+    <CvBuilderLayout
+    formData={formData}
+    template={selectedTemplate}
     >
-      <div>
+      {/* the template page */}
+      {page == 1 && <div>
+        <div className="max-w-xl mx-auto">
+      <h2 className="text-xl font-bold mb-4">📝 Templates</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {templates.map((template) => (
+          <div
+            key={template.id}
+            className={`p-4 border rounded-lg cursor-pointer ${
+              selectedTemplate === template.id ? "border-blue-500 bg-blue-100" : "border-gray-300"
+            }`}
+            onClick={() => setSelectedTemplate(template.id)}
+          >
+            <h3 className="text-lg font-semibold">{template.name}</h3>
+            <Image src={template.imgUrl} alt={template.name} width={200} height={200}/>
+            <p className="text-gray-600">It has used {template.usage} times</p>
+            {template.recommended && <span className="text-blue-500"> ✅ Recommended</span>}
+          </div>
+        ))}
+      </div>
+      <Button onClick={() => setPage(2)} className="mt-4">Start</Button>
+    </div>
+
+      </div>
+      }
+      
+      {/* the form page */}
+      {page == 2 && <div>
         <div>
         <Steps current={step} status={isError ? "error" : "process"} labelPlacement="vertical" items={items} />
         </div>
-        <form >
+        <form onSubmit={handleSubmit}>
         {/* step one  The Personal Information */}
         {step == 0 && (
           isLoading ? <div className="flex items-center justify-center mt-10"><LoaderCircle className="animate-spin text-primary" size={50} /></div>
@@ -175,29 +265,32 @@ export default function CvBuilder() {
           : 
           <div className="min-h-[100vh] flex flex-col mt-12 justify-center w-full">
              <h4 className="text-2xl font-bold mb-8 self-start">Personal Information</h4>
-            <div className="w-full h-full">
-            <div className="flex w-full gap-4">
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="first-name">First Name</Label>
-              <Input type="text" id="first-name" placeholder="first name" />
+            <div className="w-full h-full flex flex-col gap-6 justify-center">
+            
+            <div className="grid w-full  items-center gap-1.5">
+              <Label htmlFor="name">Name</Label>
+              <Input type="text" id="name" placeholder="name" onChange={(e) => setPersonalInfo({ ...personalInfo, name: e.target.value })} />
             </div>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="last-name">Last Name</Label>
-              <Input type="text" id="last-name" placeholder="last name" />
-            </div>
-          </div>
-
+            
         <div className="grid w-full  items-center gap-1.5">
       <Label htmlFor="email">Email</Label>
-      <Input type="email" id="email" placeholder="Email" />
+      <Input type="email" id="email" placeholder="Email" onChange={(e) => setPersonalInfo({ ...personalInfo, email: e.target.value })} />
     </div>
     <div className="grid w-full items-center gap-1.5">
       <Label htmlFor="Phone">Phone</Label>
-      <Input type="tel" id="phone" placeholder="Phone" />
+      <Input type="tel" id="phone" placeholder="Phone" onChange={(e) => setPersonalInfo({ ...personalInfo, phone: e.target.value })} />
+    </div>
+    <div className="grid w-full items-center gap-1.5">
+      <Label htmlFor="Phone">WhatsApp Number</Label>
+      <Input type="tel" id="whatsphone" placeholder="Whatsapp Number" onChange={(e) => setPersonalInfo({ ...personalInfo, whatsNum: e.target.value })} />
     </div>
     <div className="grid w-full items-center gap-1.5">
       <Label htmlFor="specialization">Specialization</Label>
-      <Input type="text" id="specialization" placeholder="Specialization" />
+      <Input type="text" id="specialization" placeholder="Specialization" onChange={(e) => setPersonalInfo({ ...personalInfo, specialization: e.target.value })} />
+    </div>
+    <div className="grid w-full items-center gap-1.5">
+      <Label htmlFor="summery">Summery</Label>
+      <Textarea id="summery" placeholder="Summery" onChange={(e) => setPersonalInfo({ ...personalInfo, summery: e.target.value })} />
     </div>
 
                 <div className="border rounded-2xl p-8">
@@ -213,7 +306,7 @@ export default function CvBuilder() {
                       Upload Profational Image (Optional)
                     </p>
                     <p className="text-gray-500">The file must be in JPEG or PNG format</p>
-                    <Input type="file" className="hidden" />
+                    <Input type="file" className="hidden" onChange={handleFileChange} />
                   </Label>
                 </div>
                 <div className="flex gap-2">
@@ -398,6 +491,6 @@ export default function CvBuilder() {
           </div>
         )}
         </form>
-      </div>
-      </CvLayout>
+      </div>}
+      </CvBuilderLayout>
   )}
