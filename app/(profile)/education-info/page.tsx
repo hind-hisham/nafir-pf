@@ -115,7 +115,7 @@ export default function EducationInfo() {
          value={newEducation.endDate ? newEducation.endDate.toISOString().split("T")[0] : ""} 
          onChange={handleDateChange} />
       </div>
-</div>
+      </div>
 
       <div className="w-full grid items-center gap-1.5">
         <Label htmlFor="details">Job Description</Label>
