@@ -1,8 +1,14 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials"
 import axios from "axios";
 
 const BACKEND_URL = "http://localhost:8000";
+
+interface UserCredentials {
+  email: string | unknown;
+  password: string | unknown
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -17,6 +23,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           scope: "openid email profile",
         },
       },
+    }),
+    Credentials({
+      credentials: {
+        email: {label: 'email'},
+        password: {label: 'password', type: 'password'}
+      },
+      async authorize(credentials: Partial<UserCredentials>, request) {
+        console.log('Received', JSON.stringify(credentials))
+        if (!credentials) {
+          console.log('NO CREDENTIALS RECEIVED')
+          return null
+        }
+        const {email} = credentials
+        if (typeof email !== 'string') {
+          return null;
+        }
+        console.log(credentials)
+        if (email !== 'test@example.com') return null
+        return {
+          email, name: 'Dummy', id: 'asdfasdf', image: ''
+        }
+      }
     }),
   ],
   callbacks: {

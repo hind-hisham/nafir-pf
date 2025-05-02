@@ -1,6 +1,7 @@
 import { appRouter } from "@/server/router";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
+console.log('WE REACHED TRPC')
 const handler = async (req: Request) => {
   return fetchRequestHandler({
     endpoint: "/api/trpc",

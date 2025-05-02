@@ -5,6 +5,7 @@ import {
   router,
   authedProcedure,
 } from "../init";
+import { contextFetch } from "../services/apiCalls";
 
 export const testRouter = router({
   test: publicProcedure.query(() => {
@@ -19,30 +20,26 @@ export const testRouter = router({
   }),
   testProtect: protectedProcedure.query(async ({ ctx: { token } }) => {
     return {
-        message: `Hello! You are logged in.`
-    }
+      message: `Hello! You are logged in.`,
+    };
   }),
 
-  getMentorships: publicProcedure.query(async()=>{
-const res = await axios.get("http://localhost:8000/api/mentorships");
-const data = res.data.data;
+  getMentorships: authedProcedure.query(async ({ ctx }) => {
+    const data = await contextFetch<any>("/mentorships", ctx);
+    return data.data;
+  }),
 
-return data;
-}),
+  getBlogs: publicProcedure.query(async () => {
+    const res = await axios.get("http://localhost:8000/api/posts");
+    const data = res.data.data;
 
-getBlogs : publicProcedure.query(async()=>{
-  const res = await axios.get('http://localhost:8000/api/posts');
-const data = res.data.data;
+    return data;
+  }),
 
-return data;
-}),
+  getActivites: publicProcedure.query(async () => {
+    const res = await axios.get("http://localhost:8000/api/activites");
+    const data = res.data.data;
 
-getActivites : publicProcedure.query(async()=>{
-  const res = await axios.get('http://localhost:8000/api/activites');
-const data = res.data.data;
-
-return data;
-})
-
-
+    return data;
+  }),
 });

@@ -49,3 +49,11 @@ export default function ActivitesPage() {
     </div>
   );
 }
+
+
+/*
+
+eschinner@example.net
+
+
+*/
