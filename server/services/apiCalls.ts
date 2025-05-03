@@ -2,7 +2,8 @@ import { Context } from "../context";
 
 const API_BASE = process.env.API_BASE!;
 const makeUrl = (endpoint: string) => `${API_BASE}${endpoint}`;
-export async function contextFetch<T>(
+
+export async function callBackend<T = { data: any }>(
   endpoint: string,
   ctx: Context,
   options?: RequestInit
@@ -10,7 +11,7 @@ export async function contextFetch<T>(
   const token = ctx.token;
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 
   const resp = await fetch(makeUrl(endpoint), {
@@ -20,8 +21,8 @@ export async function contextFetch<T>(
       ...(options?.headers || {}),
     },
   });
-  console.log('Received response', resp)
+  console.log("Received response", resp);
   const data = (await resp.json()) as T;
-  console.log('DATA:', data)
+  console.log("DATA:", data);
   return data;
 }
