@@ -1,11 +1,10 @@
-
 import Image from "next/image";
 import { signIn as serverSignIn } from "@/auth";
 import { Button } from "@/components/ui/button";
-import FormContent from "./_components/form-content";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function Login() {
-
   // if(loading){
   //   return (
   //     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -31,21 +30,45 @@ export default function Login() {
             Join our community and start your journey today.
           </p>
           <form
-             action={async (formData) => {
-               "use server"
-               await serverSignIn("credentials", formData)
-             }}
-
+            action={async (formData) => {
+              "use server";
+              console.log('------------------------------')
+              console.log(JSON.stringify(formData))
+              await serverSignIn("credentials", formData);
+            }}
             className="flex flex-col gap-4 text-gray-500"
           >
-            <FormContent />
+            <div className="grid w-full  items-center gap-1.5">
+              <Label htmlFor="email">Email</Label>
+              <Input type="email" id="email" name="email" placeholder="Email" />
+            </div>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+              />
+            </div>
+            <input type="hidden" name="redirectTo" value="/" />
+            <Button type="submit" size={"lg"} className="mt-4">
+              Login
+            </Button>
           </form>
-          <button formAction={
-            async () => {
+            <div className="w-full relative bg-gray-300 h-[1px] my-4">
+              <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4">
+                OR
+              </span>
+            </div>
+          <button
+            formAction={async () => {
               "use server";
-              await serverSignIn("google")
-            }
-          }>Continue with Google</button>
+              await serverSignIn("google");
+            }}
+          >
+            Continue with Google
+          </button>
         </div>
       </div>
     </div>

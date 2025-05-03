@@ -40,7 +40,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
         console.log(credentials)
-        if (email !== 'test@example.com') return null
         return {
           email, name: 'Dummy', id: 'asdfasdf', image: ''
         }
