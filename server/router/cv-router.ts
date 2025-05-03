@@ -1,5 +1,5 @@
-import { protectedProcedure, router } from "../init";
+import { protectedProcedure, Router } from "../init";
 
-export const cv = router({
+export const router = Router({
     // add CV-related procedures here
 })

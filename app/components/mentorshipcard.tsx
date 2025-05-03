@@ -19,7 +19,7 @@ type Mentorship = {
 export default function MentorshipCard() {
   const router = useRouter();
 const {data : user } = useSession()
-  const { data: mentorships, isLoading, error } = trpc.test.getMentorships.useQuery();
+  const { data: mentorships, isLoading, error } = trpc.mentorship.getMentorships.useQuery();
 
   const handlePreview = (item: Mentorship) => {
     router.push(`/mentorship/${item.id}`);

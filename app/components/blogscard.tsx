@@ -18,7 +18,7 @@ type Blogs = {
 export default function BlogsCard() {
   const router = useRouter();
 
-  const { data: blogs, isLoading, error } = trpc.test.getBlogs.useQuery();
+  const { data: blogs, isLoading, error } = trpc.blog.getBlogs.useQuery();
 
   const handlePreview = (item: Blogs ) => {
    router.push(`/blogoverview/${item.id}`);

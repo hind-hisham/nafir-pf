@@ -1,13 +1,11 @@
-import axios from "axios";
 import {
   publicProcedure,
   protectedProcedure,
-  router,
+  Router,
   authedProcedure,
 } from "../init";
-import { contextFetch } from "../services/apiCalls";
 
-export const testRouter = router({
+export const router = Router({
   test: publicProcedure.query(() => {
     return {
       message: "Hello from tRPC!",
@@ -22,24 +20,5 @@ export const testRouter = router({
     return {
       message: `Hello! You are logged in.`,
     };
-  }),
-
-  getMentorships: authedProcedure.query(async ({ ctx }) => {
-    const data = await contextFetch<any>("/mentorships", ctx);
-    return data.data;
-  }),
-
-  getBlogs: publicProcedure.query(async () => {
-    const res = await axios.get("http://localhost:8000/api/posts");
-    const data = res.data.data;
-
-    return data;
-  }),
-
-  getActivites: publicProcedure.query(async () => {
-    const res = await axios.get("http://localhost:8000/api/activites");
-    const data = res.data.data;
-
-    return data;
   }),
 });

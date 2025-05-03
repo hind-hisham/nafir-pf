@@ -19,7 +19,7 @@ type Activity = {
 export default function ActivitesCard() {
   const router = useRouter();
 
-  const { data: Activites, isLoading, error } = trpc.test.getActivites.useQuery();
+  const { data: Activites, isLoading, error } = trpc.activity.getActivites.useQuery();
 
   const handlePreview = (item: Activity) => {
     router.push(`/blogoverview/${item.id}`);

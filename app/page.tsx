@@ -5,8 +5,6 @@ import { useSession } from "next-auth/react";
 
 export default function Home() {
   const { data: session } = useSession();
-  
-  const { data, isLoading, isError } = trpc.test.getMentorships.useQuery();
 
   return (
     <div className="container mx-auto px-4 py-6">

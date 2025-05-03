@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 
 const t = initTRPC.context<Context>().create();
 
-export const router = t.router;
+export const Router = t.router;
 
 export const baseProcedure = t.procedure.use((opts) => {
   // Log the procedure name and input
