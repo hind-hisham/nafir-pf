@@ -18,20 +18,20 @@ type Mentorship = {
 
 export default function MentorshipCard() {
   const router = useRouter();
-const {data : user } = useSession()
-  const { data: mentorships, isLoading, error } = trpc.mentorship.getMentorships.useQuery();
+// const {data : user } = useSession()
+//   const { data: mentorships, isLoading, error } = trpc.mentorship.getMentorships.useQuery();
 
   const handlePreview = (item: Mentorship) => {
     router.push(`/mentorship/${item.id}`);
   };
 
-  if (isLoading) {
-    return <p className="text-center mt-10">Loading mentorships...</p>;
-  }
+  // if (isLoading) {
+  //   return <p className="text-center mt-10">Loading mentorships...</p>;
+  // }
 
-  if (error) {
-    return <p className="text-center text-red-500 mt-10">Failed to load mentorships.</p>;
-  }
+  // if (error) {
+  //   return <p className="text-center text-red-500 mt-10">Failed to load mentorships.</p>;
+  // }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-center justify-center p-4">
@@ -75,9 +75,9 @@ const {data : user } = useSession()
         </Card>
       ))}
 
-      {mentorships?.length === 0 && !isLoading && (
+      {/* {mentorships?.length === 0 && !isLoading && (
         <p className="text-center mt-4">No mentorships available.</p>
-      )}
+      )} */}
     </div>
   );
 }

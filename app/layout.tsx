@@ -37,7 +37,7 @@ export default function RootLayout({
         <TRPCProvider>
           <SessionProvider>
               <Navbar />
-              <main className="min-h-screen p-8 bg-gray-100 w-full">
+              <main className="min-h-screen bg-gray-100 w-full">
                 {children}
               </main>
               <Footer />

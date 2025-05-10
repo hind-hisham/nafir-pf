@@ -1,51 +1,164 @@
 "use client";
-import BlogsCard from "../components/blogscard";
-import { FiSearch, FiFilter } from "react-icons/fi";
-import blogshero from "../../public/blogshero.png";
+import BlogCardV from "./_components/BlogCardV";
+import { useState } from "react";
 
+
+const filterOptions = ["All", "CV", "Book Club", "English Club","Tips","Carrer","Leadership"]; 
+
+export const blogs=[
+  {
+      id:"1",
+      title:"title tiltle 1",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur ,Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["CV","Leadership"],
+      date:"01-01-2023",
+      author:"John Doe",
+      category:"Carrer"
+  },
+  {
+      id:"2",
+      title:"title tiltle 2",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["Book Club","Tips"],
+      date:"01-01-2023",
+      author:"Doe foo",
+      category:"Book Club"
+  },
+  {
+      id:"3",
+      title:"title tiltle 3",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["Carrer","Leadership"],
+      date:"01-01-2023",
+      author:"John Doe",
+      category:"Leadership"
+  },
+  {
+      id:"4",
+      title:"title tiltle 4",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur ,Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["CV","Leadership"],
+      date:"01-01-2023",
+      author:"John Doe",
+      category:"English Club"
+  },
+  {
+      id:"5",
+      title:"title tiltle 5",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["CV","Leadership"],
+      date:"01-01-2023",
+      author:"John Doe",
+      category:"Leadership"
+  },
+  {
+      id:"6",
+      title:"title tiltle 6",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["CV","Leadership"],
+      date:"01-01-2023",
+      author:"John Doe",
+      category:"CV"
+  },
+  {
+      id:"7",
+      title:"title tiltle 7",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur ,Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["CV","Leadership"],
+      date:"01-01-2023",
+      author:"John Doe",
+      category:"CV"
+  },
+  {
+      id:"8",
+      title:"title tiltle 8",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["CV","Leadership"],
+      date:"01-01-2023",
+      author:"John Doe",
+      category:"Book Club"
+  },
+  {
+      id:"9",
+      title:"title tiltle 9",
+      content:"Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consecteturLorem, ipsum dolor sit amet consectetur Lorem, ipsum dolor sit amet consectetur",
+      imgUrl:"/blog.png",
+      linkUrl:"/",
+      tags:["CV","Leadership"],
+      date:"01-01-2023",
+      author:"John Doe",
+      category:"English Club"
+  }
+]
 export default function BlogsPage() {
+
+  const [filter, setFilter] = useState("All");
+
+  // const { data: posts } = useQuery({
+	// 	queryKey: ["posts"],
+	// 	queryFn: async () => {
+	// 		const res = await axiosInstance.get("/posts");
+	// 		return res.data;
+	// 	},
+	// });
+
+  
+  const filteredBlogs = blogs.filter((blog) => {
+    if (filter === "All") {
+      return true;
+    }
+    return blog.category == filter;
+  })
+  
   return (
-    <div className="flex b-white flex-col items-center justify-center min-h-screen">
-      <div className="w-full relative top-0">
-        <img
-          src={blogshero.src}
-          alt="Mentorship Hero"
-          className="w-screen h-full object-cover rounded-md"
-        />
-        <div className=" bg-white  mx-auto rounded-md p-8 shadow-md z-10 relative">
-          <div className="p-4">
-            <div dir="rtl" className="flex flex-col gap-2 mb-4">
+    <div className="flex b-white flex-col items-center justify-center  w-full">
+        <div className="flex flex-col  pt-20 pb-30 p-8 hero-bg w-full">
+          <h3 className="text-3xl font-bold text-primary mb-8">Blogs Section</h3>
+          <p className="text-2xl font-bold mb-4">Tips, paths, and success stories to help you <span className="text-orange-300">advance your career</span> through Nafeer.</p>
+             <p>Learn a lot from the Nafeer blog for the best advice and guidance.</p>
+
+        </div>
+  
+            <div className="flex flex-col gap-2 p-8 w-full bg-white">
             
-              <h2 className="text-2xl font-bold text-primary mb-4 mt-6">اخر المدونات</h2>
+              <h2 className="text-2xl font-bold mb-4 mt-6">latest blogs</h2>
               <div className="flex justify-between items-center w-full">
-                {/* <button className="flex items-center gap-1 border border-gray-300 px-3 py-2 rounded-md hover:bg-gray-100 text-sm">
-                  <FiFilter />
-                  Filter
-                </button> */}
+
              
-                <div className="relative w-full max-w-xs">
-                  <input
-                    type="text"
-                    placeholder="Search mentors..."
-                    className="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                  <FiSearch
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                    size={18}
-                  />
-                </div>
-                <button className="flex items-center gap-1 border border-gray-300 px-3 py-2 rounded-md hover:bg-gray-100 text-sm">
-                  <FiFilter />
-                  Filter
-                </button>
-              </div>
+              { filterOptions.map((option) => (
+                  <button key={option} className=" bg-yellow-100 px-3 py-2 min-w-[100px] text-gray-800 rounded-full hover:bg-yellow-100 text-sm"
+                  onClick={() => setFilter(option)}
+                  >
+                    {option}
+                  </button>
+                ))
+              }
+
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center w-full">
-            <BlogsCard />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full bg-white">
+            {
+               filteredBlogs.length === 0 ? <h2 className="text-2xl font-bold mb-4 mt-6 bg-white w-full text-center">No blogs found</h2> : filteredBlogs.map((blog) => (
+                <BlogCardV key={blog.title} title={blog.title} content={blog.content} imgUrl={blog.imgUrl} linkUrl={blog.linkUrl} />
+              ))
+              }
           </div>
         </div>
-      </div>
-    </div>
   );
 }

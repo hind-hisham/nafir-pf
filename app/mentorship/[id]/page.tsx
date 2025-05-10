@@ -12,7 +12,6 @@ type Mentorship = {
   department_id: number;
   date: string;
   days: string;
-  
   available_times: string;
 };
 

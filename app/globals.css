@@ -121,3 +121,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+.hero-bg {
+  background-image: url("/blogHero.jpg");
+  background-size: cover;
+  background-position: center;
+}
