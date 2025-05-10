@@ -1,25 +1,28 @@
-"use client";
-import { trpc } from "@/client/trpc";
+// pages/index.tsx
+import Hero from "./_components/Hero";
+import Features from "./_components/Features";
+import Testimonials from "./_components/Testimonials";
+import MentorSection from "./_components/MentorSection";
+import ActivitySection from "./_components/ActivitySection";
+import Community from "./_components/Community";
+import Contact from "./_components/Contact";
+import FAQ from "./_components/FAQ";
+import HowItWorks from "./_components/HowItWorks";
 
-import { useSession } from "next-auth/react";
-
-export default function Home() {
-  const { data: session } = useSession();
-
+const Home = () => {
   return (
-    <div className="container mx-auto px-4 py-6">
-      <header className="flex justify-start flex-col  mb-8">
-        <h2 className="text-2xl font-bold text-hray-800">
-          Welcome Back, <span className="text-primary"> {session?.user?.name || "Guest"} </span>
-        </h2>
-        <p className="text-lg text-gray-600">Here's what we've been up to!</p>
-      </header>
-
-      
-      
-      <footer className="text-center py-6 text-sm text-gray-500">
-        <p>&copy; 2025 Your Company. All rights reserved.</p>
-      </footer>
+    <div className="flex flex-col">
+      <Hero />
+      <Features />
+      <Testimonials />
+      <MentorSection/>
+      <Community/>
+      <ActivitySection/>
+      {/* <HowItWorks/> */}
+      {/* <FAQ/> */}
+      <Contact/>
     </div>
   );
-}
+};
+
+export default Home;

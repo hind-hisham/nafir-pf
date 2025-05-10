@@ -1,8 +1,8 @@
+
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { CardContent, CardHeader } from "@/components/ui/card";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 type Mentorship = {
     id: number;
@@ -15,9 +15,8 @@ type Mentorship = {
   };
 export default function MentorCard ( {item} : { item: Mentorship }) {
 
-    const router = useRouter();
   const handlePreview = (item: Mentorship) => {
-    router.push(`/mentorship/${item.id}`);
+    window.location.href = `/mentorships/${item.id}`;
   };
     return(
         <div

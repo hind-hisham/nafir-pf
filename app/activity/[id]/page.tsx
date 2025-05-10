@@ -29,7 +29,7 @@ export default function Activity() {
 
   console.log(activity);
   return (
-    <>
+    <div className="p-8 w-full">
     <h1 className="text-3xl font-bold mb-6">Activites Section</h1>
     <div className="flex flex-col md:flex-row gap-6 w-full">
       <div className="flex-1 flex flex-col gap-6 bg-white p-6 rounded-lg shadow-md ">
@@ -54,6 +54,6 @@ export default function Activity() {
      
      <ActivityCard key={activity?.id} {...{ activity }} />
     </div>
-    </>
+    </div>
   );
 }

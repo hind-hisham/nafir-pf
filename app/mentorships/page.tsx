@@ -74,6 +74,24 @@ export const mentors: Mentorship[] = [
     days: "Thursday, Friday",
     available_times: "5:00 PM - 7:00 PM",
   },
+  {
+    id: 7,
+    name: "Mentorship 7",
+    mentor_id: 7,
+    department_id: 7,
+    date: "2023-01-07",
+    days: "Saturday, Sunday",
+    available_times: "6:00 PM - 8:00 PM",
+  },
+  {
+    id: 8,
+    name: "Mentorship 8",
+    mentor_id: 8,
+    department_id: 8,
+    date: "2023-01-08",
+    days: "Monday, Tuesday",
+    available_times: "7:00 PM - 9:00 PM",
+  }
 ];
 
 const cards =[
@@ -96,7 +114,7 @@ const cards =[
     title: "Start Your Journey",
     description: "Take the first step towards success, and join a network of experts",
     icon: "/icons/icon-4.png",
-  }
+  },
 ]
 
 export default function Mentorships() {
